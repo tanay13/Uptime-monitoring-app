@@ -28,6 +28,7 @@ var server = http.createServer((req,res)=>{
     //the callback is called when the server got all the HTTP headers, but not the request body.
     //The request object passed in the connection callback is a stream.
     //So, we must listen for the body content to be processed, and it's processed in chunks.
+    //same as req.body in vanilla form
     req.on('data',(data)=>{
         buffer+= decoder.write(data);
     })
@@ -48,14 +49,21 @@ var server = http.createServer((req,res)=>{
         //route the request to the handler
         chosenHandler(data,function(statusCode,payload){
             //default
+            statusCode = typeof(statusCode) == 'number' ? statusCode:200;
+
+            payload = typeof(payload) == 'object' ? payload:{}
+
+            //convert the payload to a string
+             var payloadSting = JSON.stringify(payload)
+
+            //return the response
+            res.writeHead(statusCode)
+            res.end(payloadSting)
+            console.log("Returning this response ",statusCode,payloadSting);
+
         })
             
-        //send the response
-        res.end("Hello")
-        console.log('request received on path: '+trimmedPath+" with method: "+method);
-        console.log("with these query string parameters: ",queryStringObject)
-        console.log(headers);
-        console.log("Request received with this payload: ",buffer);
+        
 
     })
 
