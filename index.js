@@ -4,7 +4,7 @@ var StringDecoder = require('string_decoder').StringDecoder
 
 var server = http.createServer((req,res)=>{
 
-    //get the url and parse it
+    //get the url and parse it-(true- to parse query string data)
     var parsedUrl = url.parse(req.url,true)
 
 
