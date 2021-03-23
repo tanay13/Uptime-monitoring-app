@@ -1,5 +1,6 @@
 const http = require('http');
 var url = require('url');
+var config = require('./config')
 var StringDecoder = require('string_decoder').StringDecoder
 
 var server = http.createServer((req,res)=>{
@@ -66,17 +67,13 @@ var server = http.createServer((req,res)=>{
             
     
     })
-
-
-
-
-
-
     
 })
 
-server.listen(3000,()=>{
-    console.log("server running")
+
+
+server.listen(config.port,()=>{
+    console.log("server running on "+config.port)
 })
 //define the handlers
 var handlers = {};
