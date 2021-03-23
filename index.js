@@ -36,7 +36,7 @@ var server = http.createServer((req,res)=>{
         buffer += decoder.end();
 
         //choose the handler
-        var chosenHandler = typeof(router[trimmedPath]!=='undefined'? router[trimmedPath]:handlers.notFound);
+        var chosenHandler = typeof(router[trimmedPath])!=='undefined'? router[trimmedPath]:handlers.notFound;
         //construct the data object
         var data = {
             'trimmedPath':trimmedPath,
@@ -46,7 +46,7 @@ var server = http.createServer((req,res)=>{
             'payload' : buffer
 
         }
-        //route the request to the handler
+        // route the request to the handler
         chosenHandler(data,function(statusCode,payload){
             //default
             statusCode = typeof(statusCode) == 'number' ? statusCode:200;
@@ -57,14 +57,14 @@ var server = http.createServer((req,res)=>{
              var payloadSting = JSON.stringify(payload)
 
             //return the response
+            res.setHeader('Content-type','application/json')
             res.writeHead(statusCode)
             res.end(payloadSting)
             console.log("Returning this response ",statusCode,payloadSting);
 
         })
             
-        
-
+    
     })
 
 
